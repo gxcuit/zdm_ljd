@@ -9,25 +9,19 @@ function follow() {
     }
     follow.click();
     sleep(1000);
-    
-    var confirm = text('确认').findOne(1000);
-    if(confirm){
-        confirm.click()
-        toastLog("存在'确认'---领取成功！");
-    }else{
-        var accept = textContains('收下').findOne(1000);
-        if (accept) {
-            if(!(accept.click())){
-                accept.parent().click();
-                toastLog('存在收下---领取成功！');
-            }
-        }else{
-            toastLog('暂无京豆---领取失败！');
+
+    //var confirm = text('确认').findOne(1000);
+    var confirm = textMatches("/(确认)+|(收下)+|(关注)+/").findOne(2000);
+    if (confirm) {
+        if (!confirm.click()) {
+            confirm.parent().click();
         }
-        
+        toastLog("存在''---领取成功！");
+    } else {
+        toastLog('暂无京豆---领取失败！');
     }
     sleep(1000);
-    back(); 
+    back();
 }
 
 
@@ -35,7 +29,8 @@ function follow() {
 
 auto.waitFor();
 toastLog('start');
-var receive =textContains('点此领取').clickable().find();
+//var receive =textContains('点此领取').clickable().find();
+var receive =textMatches("点此领取16").clickable().find();
 //toastLog('当前界面共找到点击领取* '+receive.size()+' 个');
 receive.forEach(element => {
     //console.log(element);
@@ -44,8 +39,15 @@ receive.forEach(element => {
     sleep(1000);
     element.click();
     sleep(1000);
-    id('android:id/text1').text('京东').findOne(1000).parent().click();
-    follow();
+    var jd= id('android:id/text1').text('京东').findOne(1000);
+    if (jd) {
+        jd.parent().click();
+        follow();
+    }else{
+        back();
+        return;
+    }
+    
     
 });
 
