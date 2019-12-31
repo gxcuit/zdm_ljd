@@ -1,4 +1,5 @@
 //TODO: 注释
+
 function follow() {
     //sleep(1000);
     var follow = id('com.jd.lib.jshop:id/ue').findOne(3000);
