@@ -1,8 +1,8 @@
 //TODO: 注释
 function follow() {
-    //sleep(1000);
+    sleep(1000);
     var follow = id('com.jd.lib.jshop:id/ue').findOne(3000);
-    if(!follow){
+    if (!follow) {
         toastLog("不存在'关注'或'关注有礼！'");
         back();
         return;
@@ -30,29 +30,35 @@ function follow() {
 auto.waitFor();
 toastLog('start');
 //var receive =textContains('点此领取').clickable().find();
-var gv_child =textMatches("点此领取\\d+").clickable().find();
+
+
+
+
+
+//var receive =textMatches("点此领取\\d+").clickable().find();
 //toastLog('当前界面共找到点击领取* '+receive.size()+' 个');
-gv_child.forEach(element => {
-    //console.log(element);
-    console.log("正在领取"+element.text().substring(4,element.text().length));
-    
+var gv_child = className('GridView').findOne(2000).children();
+console.log(gv_child.size());
+
+gv_child.forEach(view => {
+    sleep(random(900,1500));
+    var getjd = view.findOne(clickable());
+    if (!getjd)
+        return;
+    console.log("正在领取" + getjd.text());
+    //sleep(1000);
+    getjd.click();
     sleep(1000);
-    element.click();
-    sleep(1000);
-    var jd= id('android:id/text1').text('京东').findOne(1000);
-    if (jd) {
+    var jd = id('android:id/text1').text('京东').findOne(1000);
+
+
         jd.parent().click();
         follow();
-    }else{
-        back();
-        return;
-    }
-    
-    
+
+
 });
 
 if (gv_child.empty()) {
     console.log('empty');
-    
     scrollDown();
 }
