@@ -3,7 +3,7 @@
  * @Author: gxcuit 
  * @Date: 2019-12-31 11:22:45 
  * @Last Modified by: gxcuit
- * @Last Modified time: 2020-01-09 14:35:32
+ * @Last Modified time: 2020-01-09 14:18:10
  * 
  * @使用说明：
  * 1.最好首先关闭“什么值得买”和“京东”app
@@ -12,16 +12,12 @@
  * 4.运行脚本，观察toast
  * 
  */
-function randomSleep(random_begin,random_end) {
-    random_begin=random_begin||2000;
-    random_end=random_end||5000;
-    sleep(random_begin,random_end);
-}
+
 
 
 function follow() {
     sleep(random(1000, 3000));
-    var follow = id('com.jd.lib.jshop:id/uf').findOne(3000);
+    var follow = id('com.jd.lib.jshop:id/wp').findOne(3000);
     if (!follow) {
         toastLog("不存在'关注'或'关注有礼！'");
         sleep(1500);
@@ -29,7 +25,7 @@ function follow() {
         return;
     }
     follow.click();
-    randomSleep();
+    sleep(random(2000, 2500));
 
     //var confirm = text('确认').findOne(1000);
     var confirm = textMatches("/(确认)+|(收下)+|(关注)+/").findOne(3000);
